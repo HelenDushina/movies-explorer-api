@@ -27,7 +27,7 @@ module.exports.createUser = (req, res, next) => {
         // Обработка ошибки
         next(new NotUniqueError('Такой пользователь уже существует'));
       }
-      if (err.name === 'ValidationError') {
+      else if (err.name === 'ValidationError') {
         next(new BadRequestError('Неверный запрос'));
       } else {
         next(err);
@@ -59,7 +59,7 @@ module.exports.getMe = (req, res, next) => {
         throw new NotFoundError('Пользователь не найден');
       }
       res.status(200).send({ data: user });
-     })
+    })
     .catch(next);
 };
 

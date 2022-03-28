@@ -3,7 +3,6 @@ const express = require('express');
 const routes = express.Router();
 
 const { celebrate, Joi } = require('celebrate');
-// const validator = require('validator');
 const { getMe, updateUser } = require('../controllers/users');
 
 routes.get('/users/me', getMe);

@@ -1,8 +1,10 @@
 const Movie = require('../models/movie');
 const BadRequestError = require('../errors/bad-request-err');
+const NotFoundError = require('../errors/not-found-err');
+const FilmError = require('../errors/film-err');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({owner: req.user._id})
+  Movie.find({ owner: req.user._id })
     .then((movies) => {
       res.status(200).send({ data: movies });
     })
@@ -10,8 +12,24 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId } = req.body;
-  Movie.create({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner: req.user._id })
+  const {
+    country, director, duration, year, description, image,
+    trailerLink, nameRU, nameEN, thumbnail, movieId,
+  } = req.body;
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner: req.user._id,
+  })
     .then((movie) => {
       res.status(201).send(movie);
     })
@@ -31,7 +49,7 @@ module.exports.deleteMovie = (req, res, next) => {
         throw new NotFoundError('Фильм не найден');
       }
       if (!movie.owner.equals(req.user._id)) {
-        throw new CardError('Можно удалять только свои фильмы!');
+        throw new FilmError('Можно удалять только свои фильмы!');
       }
       Movie.findByIdAndRemove(req.params.movieId)
         .then((delitemovie) => {

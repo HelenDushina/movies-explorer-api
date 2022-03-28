@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { errors, celebrate, Joi } = require('celebrate');
+const { errors } = require('celebrate');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
-const { createUser, login } = require('./controllers/users');
 const routes = require('./routes/index');
-const rateLimit = require('express-rate-limit');
-const helmet = require("helmet");
+const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3001 } = process.env;
 
@@ -18,25 +18,11 @@ const limiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 });
 
+app.use(requestLogger); // подключаем логгер запросов
 app.use(limiter);
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
-app.use(requestLogger); // подключаем логгер запросов
-
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2).max(30),
-  }),
-}), login);
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2).max(30),
-  }),
-}), createUser);
 
 app.use('/', routes);
 
@@ -61,7 +47,6 @@ app.use((err, req, res, next) => {
     });
   next();
 });
-
 
 async function main() {
   // подключаемся к серверу mongo
