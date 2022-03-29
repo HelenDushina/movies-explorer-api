@@ -9,7 +9,7 @@ const auth = require('./middlewares/auth');
 const routes = require('./routes/index');
 const NotFoundError = require('./errors/not-found-err');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3001, NODE_ENV, DB_ADRESS } = process.env;
 
 const app = express();
 
@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 
 async function main() {
   // подключаемся к серверу mongo
-  await mongoose.connect('mongodb://localhost:27017/moviesdb', {
+  await mongoose.connect(NODE_ENV === 'production' ? DB_ADRESS : 'mongodb://localhost:27017/moviesdb', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

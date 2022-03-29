@@ -26,8 +26,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.code === 11000) {
         // Обработка ошибки
         next(new NotUniqueError('Такой пользователь уже существует'));
-      }
-      else if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         next(new BadRequestError('Неверный запрос'));
       } else {
         next(err);
