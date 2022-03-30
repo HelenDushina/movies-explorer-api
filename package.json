@@ -1,0 +1,41 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "diplom",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelenDushina/movies-explorer-api.git"
+  },
+  "author": "helen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HelenDushina/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/HelenDushina/movies-explorer-api#readme",
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
+  },
+  "dependencies": {
+    "celebrate": "^15.0.1",
+    "cors": "^2.8.5",
+    "express-winston": "^4.2.0",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "winston": "^3.6.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.3",
+    "express-rate-limit": "^6.3.0",
+    "mongoose": "^6.2.8",
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0"
+  }
+}
